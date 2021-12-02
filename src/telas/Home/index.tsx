@@ -25,8 +25,6 @@ export default function Home() {
 
     async function atualizarUsuario() {
         const { data } = await http.put(`/usuarios/${user?.id}`, { nome, email });
-
-    
     }
 
     return (

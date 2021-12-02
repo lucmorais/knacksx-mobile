@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native"; 
+import ListaExperiencia from "../../components/ListaExperiencia";
 import { useAuth } from "../../contexts/auth";
 import FormContext from "../../contexts/form";
 import { http } from "../../utils/http";
@@ -48,7 +49,7 @@ export default function Experiencias() {
                             </TextInput>
                             <TextInput 
                                 style={styles.campo} 
-                                placeholder="Area" 
+                                placeholder="Area/Cargo" 
                                 onChangeText={(text) => setArea(text)}
                             >
                             </TextInput>
@@ -64,7 +65,7 @@ export default function Experiencias() {
                                 <Button title="Adicionar experiencia" onPress={() => inserirExperiencia()} />
                             </View>
                         </View>
-                    </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <Text>{item.empresa}</Text>} data={dados} />}
+                    </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <ListaExperiencia {...item}/>} data={dados} />}
         </View>
     )
 }

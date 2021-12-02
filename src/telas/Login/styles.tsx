@@ -11,6 +11,7 @@ export default StyleSheet.create({
     campo: {
         backgroundColor: '#fff',
         marginBottom: 10,
-        height: 40
+        height: 60,
+        borderRadius: 10
     }
 })

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, ActivityIndicator } from 'react-native';
 import { useAuth } from "../contexts/auth";
-import styles from "../telas/Home/styles";
+import styles from "./styles";
 import AppRoutes from "./app.routes";
 import AuthRoutes from "./auth.routes";
 

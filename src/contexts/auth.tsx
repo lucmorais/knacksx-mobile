@@ -5,14 +5,14 @@ import { http } from "../utils/http";
 
 interface User {
     username: string;
-    sub: number;
+    id: number;
     email: string;
     role: string;
 }
 
 interface AuthContextProps {
     signed: boolean;
-    user: object | null;
+    user: User | null;
     loading: boolean;
     logIn(email: string, senha: string): Promise<void>;
     logOut(): void;
@@ -21,7 +21,7 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 export const AuthProvider: React.FC = ({children}) => {
-    const [user, setUser] = useState<object | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {

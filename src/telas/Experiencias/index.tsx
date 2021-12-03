@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native"; 
+import { ActivityIndicator, Button, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native"; 
 import ListaExperiencia from "../../components/ListaExperiencia";
 import { useAuth } from "../../contexts/auth";
 import FormContext from "../../contexts/form";
@@ -21,6 +21,7 @@ export default function Experiencias() {
     const [area, setArea] = useState('');
     const [atividades, setAtividades] = useState('');
     const [dados, setDados] = useState<Experiencia[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         carregaExperiencias();
@@ -36,7 +37,8 @@ export default function Experiencias() {
         const {data} = await http.post(`/experiencias/${user?.id}`, { empresa, area, atividades });
         
         if (data) {
-            alert('Habilidade adicionada');
+            setLoading(false);
+            alert('Experiencia adicionada');
         }
     }
 
@@ -77,11 +79,13 @@ export default function Experiencias() {
                                 </TextInput>
                                 <View style={styles.botao}>
                                     <Button title="Adicionar experiencia" onPress={() => {
+                                        setLoading(true);
                                         inserirExperiencia();
                                         limparForm();
                                     }} 
                                     />
                                 </View>
+                                {loading && <ActivityIndicator size="large" color="#000"></ActivityIndicator>}
                             </View>
                         </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <ListaExperiencia {...item}/>} data={dados} />}
             </View>

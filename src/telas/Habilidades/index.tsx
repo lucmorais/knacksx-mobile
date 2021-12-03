@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, KeyboardAvoidingView, TextInput, Platform, Button, FlatList, Text } from "react-native";
+import { View, KeyboardAvoidingView, TextInput, Platform, Button, FlatList, Text, ActivityIndicator } from "react-native";
 import ListaHabilidade from "../../components/ListaHabilidade";
 import { useAuth } from "../../contexts/auth";
 import FormContext from "../../contexts/form";
@@ -21,6 +21,7 @@ export default function Habilidades() {
     const [descricao, setDescricao] = useState('');
     const [nivel, setNivel] = useState('');
     const [dados, setDados] = useState<Habilidade[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         carregaHabilidades();
@@ -36,6 +37,7 @@ export default function Habilidades() {
         const {data} = await http.post(`habilidades/${user?.id}`, { titulo, descricao, nivel });
         
         if (data) {
+            setLoading(false);
             alert('Habilidade adicionada');
         }
     }
@@ -77,11 +79,13 @@ export default function Habilidades() {
                                 </TextInput>
                                 <View style={styles.botao}>
                                     <Button title="Adicionar habilidade" onPress={() => {
+                                        setLoading(true);
                                         inserirHabilidade();
                                         limparForm();
                                     }}
                                     />
                                 </View>
+                                {loading && <ActivityIndicator size="large" color="#fff"></ActivityIndicator>}
                             </View>
                         </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <ListaHabilidade {...item}/>} data={dados} />}
             </View>

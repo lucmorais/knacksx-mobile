@@ -48,7 +48,7 @@ export default function AppRoutes() {
                         }}
                         style={styles.botaoLogout}
                     >
-                        <Icon name="sign-out" color="black" size={35}/>
+                        <Icon name="sign-out" color="#345D7E" size={30}/>
                     </TouchableHighlight>
                 ),
                 headerStyle: {

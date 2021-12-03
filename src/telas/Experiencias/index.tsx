@@ -26,14 +26,23 @@ export default function Experiencias() {
         carregaExperiencias();
     }, [formExp]);
 
+    function limparForm() {
+        setEmpresa('');
+        setArea('');
+        setAtividades('');
+    }
+
     async function inserirExperiencia() {
         const {data} = await http.post(`/experiencias/${user?.id}`, { empresa, area, atividades });
+        
+        if (data) {
+            alert('Habilidade adicionada');
+        }
     }
 
     async function carregaExperiencias() {
         const {data} = await http.get(`/experiencias/all/${user?.id}`);
 
-        console.log(data);
         setDados(data);
     }
 
@@ -47,12 +56,14 @@ export default function Experiencias() {
                                     style={styles.campo} 
                                     placeholder="Empresa" 
                                     onChangeText={(text) => setEmpresa(text)}
+                                    value={empresa}
                                 >
                                 </TextInput>
                                 <TextInput 
                                     style={styles.campo} 
                                     placeholder="Area/Cargo" 
                                     onChangeText={(text) => setArea(text)}
+                                    value={area}
                                 >
                                 </TextInput>
                                 <TextInput 
@@ -61,10 +72,15 @@ export default function Experiencias() {
                                     multiline={true}
                                     numberOfLines={4}
                                     onChangeText={(text) => setAtividades(text)}
+                                    value={atividades}
                                 >
                                 </TextInput>
                                 <View style={styles.botao}>
-                                    <Button title="Adicionar experiencia" onPress={() => inserirExperiencia()} />
+                                    <Button title="Adicionar experiencia" onPress={() => {
+                                        inserirExperiencia();
+                                        limparForm();
+                                    }} 
+                                    />
                                 </View>
                             </View>
                         </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <ListaExperiencia {...item}/>} data={dados} />}

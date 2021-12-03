@@ -26,15 +26,23 @@ export default function Habilidades() {
         carregaHabilidades();
     }, [formHab]);
 
+    function limparForm() {
+        setTitulo('');
+        setNivel('');
+        setDescricao('');
+    }
 
     async function inserirHabilidade() {
         const {data} = await http.post(`habilidades/${user?.id}`, { titulo, descricao, nivel });
+        
+        if (data) {
+            alert('Habilidade adicionada');
+        }
     }
 
     async function carregaHabilidades() {
         const {data} = await http.get(`/habilidades/all/${user?.id}`);
 
-        console.log(data);
         setDados(data);
     }
 
@@ -44,16 +52,18 @@ export default function Habilidades() {
             <View style={styles.conteudo}>
                 {formHab ? <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
                             <View>
-                                <TextInput 
+                                <TextInput
                                     style={styles.campo} 
                                     placeholder="Titulo"
                                     onChangeText={(texto) => setTitulo(texto)}
+                                    value={titulo}
                                 >
                                 </TextInput>
                                 <TextInput 
                                     style={styles.campo} 
                                     placeholder="Nível"
                                     onChangeText={(texto) => setNivel(texto)}
+                                    value={nivel}
                                 >
                                 </TextInput>
                                 <TextInput 
@@ -62,10 +72,15 @@ export default function Habilidades() {
                                     multiline={true}
                                     numberOfLines={4}
                                     onChangeText={(texto) => setDescricao(texto)}
+                                    value={descricao}
                                 >
                                 </TextInput>
                                 <View style={styles.botao}>
-                                    <Button title="Adicionar habilidade" onPress={inserirHabilidade} />
+                                    <Button title="Adicionar habilidade" onPress={() => {
+                                        inserirHabilidade();
+                                        limparForm();
+                                    }}
+                                    />
                                 </View>
                             </View>
                         </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <ListaHabilidade {...item}/>} data={dados} />}

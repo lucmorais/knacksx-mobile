@@ -5,8 +5,8 @@ import { http } from '../../utils/http';
 import styles from './styles';
 
 interface Dados {
-    nome: string;
-    email: string;
+    nome: string | null;
+    email: string | null;
     id: number;
     reset_senha: string;
     telefone: string;
@@ -29,16 +29,15 @@ export default function Home() {
 
     async function buscaPerfil() {
         const { data } = await http.get(`/usuarios/${user?.id}`);
-        console.log('oi');
-        
+       
         setNome(data.nome);
         setEmail(data.email);
-        setDados(data);
-        console.log(dados)
     }
 
     async function atualizarUsuario() {
         const { data } = await http.put(`/usuarios/${user?.id}`, { nome, email });
+
+        setDados(data);
     }
 
     return (
@@ -50,7 +49,7 @@ export default function Home() {
                         editable={editar} 
                         selectTextOnFocus={editar} 
                         style={styles.campo} 
-                        defaultValue={nome}
+                        defaultValue={dados.nome ? dados.nome : nome}
                         onChangeText={(texto) => {
                             if (texto != nome) {
                                 setSalvar(true);
@@ -62,7 +61,7 @@ export default function Home() {
                         editable={editar} 
                         selectTextOnFocus={editar} 
                         style={styles.campo} 
-                        defaultValue={email}
+                        defaultValue={dados.email ? dados.email : email}
                         keyboardType="email-address"
                         onChangeText={(texto) => {
                             if(texto != email) {
@@ -101,11 +100,11 @@ export default function Home() {
                         {salvar && 
                             <Button title="Salvar alterações" onPress={() => {
                                 atualizarUsuario();
-                                buscaPerfil();   
                                 setEditar(false);
                                 alert('Perfil atualizado!');
                                 setSalvar(false);
                                 setCancelar(false);
+                                buscaPerfil();   
                             }}
                             />
                         }

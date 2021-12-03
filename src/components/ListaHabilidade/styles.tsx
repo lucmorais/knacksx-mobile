@@ -15,13 +15,13 @@ export default StyleSheet.create({
     },
 
     titulo: {
-        color: '#006400',
+        color: '#345D7E',
         fontSize: 18,
         fontWeight: 'bold',
     },
 
     nivel: {
-        color: '#A050BE',
+        color: '#C06C84',
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'right'

@@ -21,7 +21,6 @@ export default function Habilidades() {
     const [descricao, setDescricao] = useState('');
     const [nivel, setNivel] = useState('');
     const [dados, setDados] = useState<Habilidade[]>([]);
-    const [input, setInput] = useState('');
 
     useEffect(() => {
         carregaHabilidades();
@@ -40,34 +39,37 @@ export default function Habilidades() {
     }
 
     return (
-        <View style={styles.conteudo}>
-            {formHab ? <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                        <View>
-                            <TextInput 
-                                style={styles.campo} 
-                                placeholder="Titulo"
-                                onChangeText={(texto) => setTitulo(texto)}
-                            >
-                            </TextInput>
-                            <TextInput 
-                                style={styles.campo} 
-                                placeholder="Nível"
-                                onChangeText={(texto) => setNivel(texto)}
-                            >
-                            </TextInput>
-                            <TextInput 
-                                style={styles.campo} 
-                                placeholder="Descrição"
-                                multiline={true}
-                                numberOfLines={4}
-                                onChangeText={(texto) => setDescricao(texto)}
-                            >
-                            </TextInput>
-                            <View style={styles.botao}>
-                                <Button title="Adicionar habilidade" onPress={inserirHabilidade} />
+        <>
+            {formHab &&<Text style={styles.titulo}>Adicionar habilidade</Text>}
+            <View style={styles.conteudo}>
+                {formHab ? <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
+                            <View>
+                                <TextInput 
+                                    style={styles.campo} 
+                                    placeholder="Titulo"
+                                    onChangeText={(texto) => setTitulo(texto)}
+                                >
+                                </TextInput>
+                                <TextInput 
+                                    style={styles.campo} 
+                                    placeholder="Nível"
+                                    onChangeText={(texto) => setNivel(texto)}
+                                >
+                                </TextInput>
+                                <TextInput 
+                                    style={styles.campo} 
+                                    placeholder="Descrição"
+                                    multiline={true}
+                                    numberOfLines={4}
+                                    onChangeText={(texto) => setDescricao(texto)}
+                                >
+                                </TextInput>
+                                <View style={styles.botao}>
+                                    <Button title="Adicionar habilidade" onPress={inserirHabilidade} />
+                                </View>
                             </View>
-                        </View>
-                    </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <ListaHabilidade {...item}/>} data={dados} />}
-        </View>
+                        </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <ListaHabilidade {...item}/>} data={dados} />}
+            </View>
+        </>
     )
 }

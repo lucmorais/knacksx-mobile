@@ -38,34 +38,37 @@ export default function Experiencias() {
     }
 
     return (
-        <View style={styles.conteudo}>
-            {formExp?<KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                        <View>
-                            <TextInput 
-                                style={styles.campo} 
-                                placeholder="Empresa" 
-                                onChangeText={(text) => setEmpresa(text)}
-                            >
-                            </TextInput>
-                            <TextInput 
-                                style={styles.campo} 
-                                placeholder="Area/Cargo" 
-                                onChangeText={(text) => setArea(text)}
-                            >
-                            </TextInput>
-                            <TextInput 
-                                style={styles.campo} 
-                                placeholder="Atividades"
-                                multiline={true}
-                                numberOfLines={4}
-                                onChangeText={(text) => setAtividades(text)}
-                            >
-                            </TextInput>
-                            <View style={styles.botao}>
-                                <Button title="Adicionar experiencia" onPress={() => inserirExperiencia()} />
+        <>
+            {formExp && <Text style={styles.titulo}>Adicionar experiência</Text>}
+            <View style={styles.conteudo}>
+                {formExp?<KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
+                            <View>
+                                <TextInput 
+                                    style={styles.campo} 
+                                    placeholder="Empresa" 
+                                    onChangeText={(text) => setEmpresa(text)}
+                                >
+                                </TextInput>
+                                <TextInput 
+                                    style={styles.campo} 
+                                    placeholder="Area/Cargo" 
+                                    onChangeText={(text) => setArea(text)}
+                                >
+                                </TextInput>
+                                <TextInput 
+                                    style={styles.campo} 
+                                    placeholder="Atividades"
+                                    multiline={true}
+                                    numberOfLines={4}
+                                    onChangeText={(text) => setAtividades(text)}
+                                >
+                                </TextInput>
+                                <View style={styles.botao}>
+                                    <Button title="Adicionar experiencia" onPress={() => inserirExperiencia()} />
+                                </View>
                             </View>
-                        </View>
-                    </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <ListaExperiencia {...item}/>} data={dados} />}
-        </View>
+                        </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <ListaExperiencia {...item}/>} data={dados} />}
+            </View>
+        </>
     )
 }

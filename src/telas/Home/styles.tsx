@@ -19,7 +19,11 @@ export default StyleSheet.create({
         borderRadius: 20,
         textAlign: 'center',
         marginTop: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+    },
+
+    bordaCampo: {
+        borderWidth: 1
     },
 
     botaoEditar: {
@@ -36,5 +40,10 @@ export default StyleSheet.create({
         color: '#555555',
         paddingBottom: 20,
         paddingTop: 20
+    },
+
+    containerGestor: {
+        justifyContent: 'center',
+        padding: 24,
     }
 })

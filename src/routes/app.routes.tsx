@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
 import { Button, View, Text, TouchableHighlight} from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "./styles";
@@ -9,16 +8,17 @@ import Home from "../telas/Home";
 import Habilidades from "../telas/Habilidades";
 import Experiencias from "../telas/Experiencias";
 import FormContext, { FormProvider } from "../contexts/form";
+import Lista from "../telas/Lista";
 
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
 export default function AppRoutes() {
     const { user, logOut } = useAuth();
-    const { modificaEstadoExperiencia, modificaEstadoHabilidade } = useContext(FormContext);
+    const { modificaEstadoExperiencia, modificaEstadoHabilidade, modificaListaGestor } = useContext(FormContext);
     const [botaoVisualizarHabilidade, setBotaoVisualizarHabilidade] = useState(true);
     const [botaoVisualizarExperiencia, setBotaoVisualizarExperiencia] = useState(true);
+    const [botaoLista, setBotaoLista] = useState(false);
 
     const handleLogOut = () => logOut();
 
@@ -146,8 +146,25 @@ export default function AppRoutes() {
     }
 
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} options={{
+        <Tab.Navigator screenOptions={{
+            tabBarActiveTintColor: '#fff',
+            tabBarInactiveTintColor: '#345D7E',
+            tabBarInactiveBackgroundColor: '#fff',
+            tabBarActiveBackgroundColor: '#F27281',
+            tabBarStyle: {
+                height: 75
+            },
+            tabBarLabelStyle: {
+                flex: 1,
+                fontWeight: 'bold',
+                fontSize: 16,
+                lineHeight: 21,
+                marginTop: 3,
+                paddingTop: 5
+            },
+            tabBarHideOnKeyboard: true,
+        }}>
+            <Tab.Screen name="Home" component={Home} options={{
                 headerRight: () => (
                     <TouchableHighlight
                         onPress={() => {
@@ -173,7 +190,48 @@ export default function AppRoutes() {
                     color: 'white',
                     display: 'none'
                 },
-            }} />
-        </Stack.Navigator>
+                tabBarIcon: ({focused, color, size }) => (
+                    <Icon name="home" size={28} color={focused ? 'white' : "#345D7E"}/>
+                ),
+                tabBarIconStyle: {
+                    marginTop: 5
+                },
+            }} 
+            />
+            <Tab.Screen name="Lista de candidatos" component={Lista} options={{
+                headerRight: () => (
+                    <View style={styles.botao}>
+                        {botaoLista ?<Button 
+                                                title="Perfil completo"
+                                                color="#F27281" 
+                                                onPress={() => {
+                                                    setBotaoLista(false);
+                                                    modificaListaGestor();
+                                                }}
+                                            /> :<Button 
+                                                title="Listar todos"
+                                                color="#F27281" 
+                                                onPress={() => {
+                                                    setBotaoLista(true);
+                                                    modificaListaGestor();
+                                                }}
+                                            />}
+                    </View>
+                ),
+                headerStyle: {
+                    backgroundColor: '#345D7E'
+                },
+                headerTitleStyle: {
+                    color: 'white'
+                },
+                tabBarIcon: ({focused, color, size }) => (
+                    <Icon name="list" size={28} color={focused ? 'white' : "#345D7E"}/>
+                ),
+                tabBarIconStyle: {
+                    marginTop: 5
+                }
+            }} 
+            />
+        </Tab.Navigator>
     )
 }

@@ -30,8 +30,6 @@ export default StyleSheet.create({
     tituloDetalhes: {
         fontSize: 20,
         textAlign: 'center',
-        borderBottomWidth: 2,
-        borderBottomColor: 'black',
         marginBottom: 30
     },
 

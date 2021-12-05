@@ -135,6 +135,7 @@ export default function Home() {
                         <ScrollView style={{flex:1}} keyboardShouldPersistTaps='handled'>
                             <View style={styles.containerGestor}>
                                 <TextInput
+                                    placeholder="Digite a habilidade"
                                     onFocus={() => setFoco(true)}
                                     onChangeText={(texto) => {
                                         setHabilidade(texto);

@@ -27,7 +27,7 @@ export default function ListaGestor({nome, email, telefone, habilidades, experie
                         </View>
                         <View style={styles.caixa}>
                             <View>
-                                <Button title="Detalhes" onPress={() => {
+                                <Button title="Detalhes" color="#345D7E" onPress={() => {
                                     setDetalhes(false);
                                 }}/>
                             </View>

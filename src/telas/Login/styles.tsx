@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { withLatestFrom } from 'rxjs';
 
 export default StyleSheet.create({
     conteudo: {
@@ -47,5 +46,10 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         textAlign:'center'
+    },
+
+    alertaCadastro: {
+        color: 'yellow',
+        fontSize: 18
     }
 })

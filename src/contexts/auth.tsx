@@ -56,16 +56,17 @@ export const AuthProvider: React.FC = ({children}) => {
 
     async function registerIn(nome: string, tipo: string, email: string, telefone: string, senha: string) {
         const { data } = await register.default(nome, tipo, email, telefone, senha);
-        
-        if(data) {
-            console.log('cadastro feito');
+
+        if(data){
+            setTimeout(() => {
+                modificaFormLogin();
+            }, 5000);
         }
     }
 
     async function logIn(email: string, senha: string) {
         setLoading(true);
         const { data } = await auth.default(email, senha);
-        console.log(data);
 
         if (data) {
             setLoading(false);

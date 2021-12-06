@@ -61,7 +61,7 @@ export default function Login() {
                                         onChangeText={(text) => setEmail(text)}
                                     />
                                     <TextInput placeholder="Senha" secureTextEntry={true} style={styles.campo} onChangeText={(text) => setSenha(text)}></TextInput>
-                                    {wrong && <Text>Email ou senha incorretos</Text>}
+                                    
                                     <TouchableHighlight disabled={email && senha ? false : true} underlayColor="white" style={email && senha ? [styles.botaoEntrarHabilitado] : [styles.botaoEntrarDesabilitado]} onPress={handleLogIn}>
                                         <Text style={styles.tituloEntrar}>Entrar</Text>
                                     </TouchableHighlight>

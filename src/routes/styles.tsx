@@ -26,5 +26,20 @@ export default StyleSheet.create({
         marginRight: 16,
         backgroundColor: 'white',
         borderRadius: 5
+    },
+
+    botaoCadastro: {
+        paddingRight: 16,
+        paddingLeft: 16,
+        paddingVertical: 10,
+        marginRight: 16,
+        backgroundColor: '#345D7E',
+        borderRadius: 5
+    },
+
+    tituloCadastro: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'white'
     }
 })

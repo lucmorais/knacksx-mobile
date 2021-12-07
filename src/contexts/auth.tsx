@@ -17,6 +17,8 @@ interface AuthContextProps {
     loading: boolean;
     formLogin: boolean;
     wrong: boolean;
+    reset: boolean;
+    modificaReset(): void;
     modificaWrong(): void;
     modificaFormLogin(): void;
     registerIn(nome: string, tipo: string, email: string, telefone: string, senha: string): Promise<void>;
@@ -31,6 +33,7 @@ export const AuthProvider: React.FC = ({children}) => {
     const [loading, setLoading] = useState(false);
     const [formLogin, setFormLogin] = useState(true);
     const [wrong, setWrong] = useState(false);
+    const [reset, setReset] = useState(true);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -45,6 +48,10 @@ export const AuthProvider: React.FC = ({children}) => {
 
         loadStoragedData();
     }, []);
+
+    function modificaReset() {
+        reset ? setReset(false) : setReset(true);
+    }
 
     function modificaWrong() {
         wrong ? setWrong(false) : setWrong(true);
@@ -91,6 +98,8 @@ export const AuthProvider: React.FC = ({children}) => {
                 formLogin: formLogin, 
                 loading,
                 wrong: wrong,
+                reset: reset,
+                modificaReset,
                 modificaWrong,
                 modificaFormLogin,
                 registerIn,

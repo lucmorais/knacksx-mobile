@@ -23,7 +23,7 @@ export default function Cadastro() {
                 setHabilita(false)
             }
         }
-    },[nome, email, telefone, tipo, senha])
+    },[nome])
     
     function handleRegisterIn() {
         registerIn(nome, tipo, email, telefone, senha);

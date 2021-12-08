@@ -8,7 +8,7 @@ import { useAuth } from "../contexts/auth";
 const AuthStack = createStackNavigator();
 
 export default function AuthRoutes() {
-    const { formLogin, modificaFormLogin } = useAuth();
+    const { formLogin, reset, modificaFormLogin, modificaReset } = useAuth();
 
     return (
         <AuthStack.Navigator>
@@ -25,6 +25,9 @@ export default function AuthRoutes() {
                                 </TouchableHighlight>:  <TouchableHighlight
                                                             onPress={() => {
                                                                 modificaFormLogin();
+                                                                if (!reset) {
+                                                                    modificaReset();
+                                                                }
                                                             }}
                                                             style={styles.botaoCadastro}
                                                             

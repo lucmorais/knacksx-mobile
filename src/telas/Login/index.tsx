@@ -38,12 +38,14 @@ export default function Login() {
                             <>
                                 <TextInput 
                                     placeholder="Email" 
-                                    keyboardType="email-address" 
+                                    keyboardType="email-address"
+                                    placeholderTextColor="#555555"
                                     style={styles.campo}
                                     onChangeText={(text) => setEmail(text)}
                                 />
                                 <TextInput 
-                                    placeholder="Senha" 
+                                    placeholder="Senha"
+                                    placeholderTextColor="#555555"
                                     secureTextEntry={true} 
                                     style={styles.campo} 
                                     onChangeText={(text) => setSenha(text)} 

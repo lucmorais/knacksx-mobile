@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     conteudo: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 24
+        alignSelf: 'center',
+        marginTop: -100,
+        position: 'absolute'
     },
 
     campo: {
@@ -17,54 +17,73 @@ export default StyleSheet.create({
         textAlign: 'center'
     },
 
-    linearGradient: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 24
+    botaoResetDesabilitado: {
+        backgroundColor: 'transparent',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        marginTop: 20,
+        opacity: 0.8,
+        borderColor: 'white',
+        borderWidth: 1
     },
 
     botaoReset: {
-        backgroundColor: 'white',
+        backgroundColor: '#229A00',
         paddingVertical: 10,
-        borderRadius: 20,
+        paddingHorizontal: 20,
+        borderRadius: 10,
         marginTop: 20,
         opacity: 0.8
+    },
+
+    botaoResetCancelar: {
+        backgroundColor: 'transparent',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'white',
+        marginTop: 20,
+        opacity: 0.9
     },
 
     textoReset: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: 'black',
+        color: 'white',
         textAlign:'center'
     },
 
-    botaoEntrarDesabilitado: {
-        paddingVertical: 10,
-        borderRadius: 20,
-        marginTop: 40,
-        borderWidth: 1,
-        borderColor: 'white',
-        backgroundColor: '#696969',
-        opacity: 0.3
-    },
-
-    botaoEntrarHabilitado: {
-        paddingVertical: 10,
-        borderRadius: 20,
-        marginTop: 40,
-        borderWidth: 1,
-        borderColor: 'white'
-    },
-
-    tituloEntrar: {
-        fontSize: 22,
+    textoResetCancelar: {
+        fontSize: 16,
         fontWeight: 'bold',
         color: 'white',
         textAlign:'center'
     },
 
-    alertaCadastro: {
-        color: 'yellow',
-        fontSize: 18
+   sucesso: {
+        width: '100%',
+        height: 150
+    },
+
+    retorno: {
+        height: 120,
+        width: '100%',
+        marginTop: -350,
+        position: 'absolute'
+    },
+
+    tituloReset: {
+        fontSize: 22,
+        color: 'white',
+        marginBottom: 30,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+
+    caixaBotoes: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 })

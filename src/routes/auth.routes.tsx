@@ -41,7 +41,7 @@ export default function AuthRoutes() {
                 headerTitleStyle: {
                     color: 'black',
                 },
-                title: formLogin ? 'Login' : 'Cadastre-se'
+                title: formLogin ? 'Login' : 'Cadastre-se',
             }}/>
         </AuthStack.Navigator>
     )

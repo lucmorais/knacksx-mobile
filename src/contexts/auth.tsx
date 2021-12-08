@@ -16,10 +16,10 @@ interface AuthContextProps {
     user: User | null;
     loading: boolean;
     formLogin: boolean;
-    wrong: boolean;
+    deny: boolean;
     reset: boolean;
     modificaReset(): void;
-    modificaWrong(): void;
+    modificaDeny(): void;
     modificaFormLogin(): void;
     registerIn(nome: string, tipo: string, email: string, telefone: string, senha: string): Promise<void>;
     logIn(email: string, senha: string): Promise<void>;
@@ -32,7 +32,7 @@ export const AuthProvider: React.FC = ({children}) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(false);
     const [formLogin, setFormLogin] = useState(true);
-    const [wrong, setWrong] = useState(false);
+    const [deny, setDeny] = useState(false);
     const [reset, setReset] = useState(true);
 
     useEffect(() => {
@@ -53,8 +53,8 @@ export const AuthProvider: React.FC = ({children}) => {
         reset ? setReset(false) : setReset(true);
     }
 
-    function modificaWrong() {
-        wrong ? setWrong(false) : setWrong(true);
+    function modificaDeny() {
+        deny ? setDeny(false) : setDeny(true);
     }
 
     function modificaFormLogin() {
@@ -74,13 +74,15 @@ export const AuthProvider: React.FC = ({children}) => {
     async function logIn(email: string, senha: string) {
         setLoading(true);
         const { data } = await auth.default(email, senha);
-
+        
         if (data) {
             setLoading(false);
             setUser(data.user);
             http.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`;
             await AsyncStorage.setItem('@Wise:user', JSON.stringify(data.user));
             await AsyncStorage.setItem('@Wise:token', data.access_token);
+        } else {
+            setUser(null);
         }
     }
 
@@ -97,10 +99,10 @@ export const AuthProvider: React.FC = ({children}) => {
                 user, 
                 formLogin: formLogin, 
                 loading,
-                wrong: wrong,
+                deny: deny,
                 reset: reset,
                 modificaReset,
-                modificaWrong,
+                modificaDeny,
                 modificaFormLogin,
                 registerIn,
                 logIn,

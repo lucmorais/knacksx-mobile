@@ -1,32 +1,27 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    conteudo: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 24
-    },
-
     campo: {
         backgroundColor: '#fff',
         marginBottom: 10,
         height: 60,
-        borderRadius: 25,
+        borderRadius: 10,
         fontSize:16,
-        fontWeight: 'bold',
-        textAlign: 'center'
+        paddingLeft: 10
     },
 
     linearGradient: {
         flex: 1,
         justifyContent: 'center',
-        padding: 24
+        padding: 24,
     },
 
     botaoReset: {
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         paddingVertical: 10,
-        borderRadius: 20,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'white',
         marginTop: 20,
         opacity: 0.8
     },
@@ -34,33 +29,39 @@ export default StyleSheet.create({
     textoReset: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: 'black',
-        textAlign:'center'
+        color: 'white',
+        textAlign:'center',
     },
 
     botaoEntrarDesabilitado: {
         paddingVertical: 10,
-        borderRadius: 20,
-        marginTop: 40,
-        borderWidth: 1,
-        borderColor: 'white',
-        backgroundColor: '#696969',
+        borderRadius: 10,
+        marginTop: 20,
+        backgroundColor: '#0095f6',
+        fontWeight: 'bold',
         opacity: 0.3
     },
 
     botaoEntrarHabilitado: {
         paddingVertical: 10,
-        borderRadius: 20,
-        marginTop: 40,
-        borderWidth: 1,
-        borderColor: 'white'
+        borderRadius: 10,
+        marginTop: 20,
+        backgroundColor: '#0095f6',
+        fontWeight: 'bold'
     },
 
-    tituloEntrar: {
+    tituloBotaoEntrar: {
         fontSize: 22,
         fontWeight: 'bold',
         color: 'white',
         textAlign:'center'
+    },
+
+    tituloLogin: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: 'white',
+        marginBottom: 50
     },
 
     alertaCadastro: {

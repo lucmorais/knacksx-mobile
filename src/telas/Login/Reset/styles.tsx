@@ -11,25 +11,22 @@ export default StyleSheet.create({
         backgroundColor: '#fff',
         marginBottom: 10,
         height: 60,
-        borderRadius: 25,
+        borderRadius: 10,
         fontSize:16,
-        fontWeight: 'bold',
-        textAlign: 'center'
+        paddingLeft: 10
     },
 
     botaoResetDesabilitado: {
-        backgroundColor: 'transparent',
+        backgroundColor: '#42b72a',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 10,
         marginTop: 20,
-        opacity: 0.8,
-        borderColor: 'white',
-        borderWidth: 1
+        opacity: 0.4,
     },
 
     botaoReset: {
-        backgroundColor: '#229A00',
+        backgroundColor: '#42b72a',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 10,
@@ -45,7 +42,6 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderColor: 'white',
         marginTop: 20,
-        opacity: 0.9
     },
 
     textoReset: {
@@ -64,7 +60,7 @@ export default StyleSheet.create({
 
    sucesso: {
         width: '100%',
-        height: 150
+        height: 215
     },
 
     retorno: {

@@ -2,36 +2,33 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     campoCadastro: {
-        backgroundColor: 'transparent',
-        borderBottomColor: 'white',
-        borderBottomWidth:1,
-        color: 'white',
-        fontSize: 20,
-        fontWeight: 'bold',
-        paddingVertical: 10,
-        textAlign: 'center'
+        backgroundColor: '#fff',
+        marginBottom: 10,
+        height: 60,
+        borderRadius: 10,
+        fontSize:16,
+        paddingLeft: 10
     },
 
     tituloEntrar: {
         fontSize: 22,
         color: 'white',
-        textAlign:'center'
+        textAlign:'center',
+        fontWeight: 'bold'
     },
 
     botaoEntrarHabilitado: {
         paddingVertical: 10,
         borderRadius: 20,
         marginTop: 40,
-        borderWidth: 1,
-        borderColor: 'white'
+        backgroundColor: '#474A51',
     },
 
     tituloInput: {
-        textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 24,
         color: 'white',
-        marginBottom: 25
+        marginBottom: 1
     },
 
     alertaCadastro: {
@@ -58,9 +55,22 @@ export default StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 20,
         marginTop: 40,
-        borderWidth: 1,
-        borderColor: 'white',
-        backgroundColor: '#696969',
+        backgroundColor: '#353839',
         opacity: 0.3
+    },
+
+    tituloCadastro: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: 'white',
+        marginBottom: 50,
+        textAlign: 'center'
+    },
+
+    botaoFinalizaHabilitado: {
+        paddingVertical: 10,
+        borderRadius: 20,
+        marginTop: 40,
+        backgroundColor: '#42b72a',
     },
 })

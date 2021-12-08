@@ -89,10 +89,12 @@ export default function Cadastro() {
 
     return (
         <View>
+            <Text style={styles.tituloCadastro}>Cadastro de usuário</Text>
             {cont == 1&&<View>
-                            <Text style={styles.tituloInput}>Insira o nome</Text>
                             <TextInput
                                 value={nome}
+                                placeholder="Nome"
+                                placeholderTextColor="#808080"
                                 style={styles.campoCadastro}
                                 onChangeText={(text) => {
                                     setNome(text);
@@ -102,10 +104,12 @@ export default function Cadastro() {
                         </View>
             }
             {cont == 2&&<View>
-                            <Text style={styles.tituloInput}>Insira o email</Text>
+                            <Text style={styles.tituloInput}>Email:</Text>
                             <TextInput
                                 value={email} 
-                                keyboardType="email-address" 
+                                keyboardType="email-address"
+                                placeholder="Email"
+                                placeholderTextColor="#808080"
                                 style={styles.campoCadastro} 
                                 onChangeText={(text) => {
                                     setEmail(text);
@@ -115,10 +119,12 @@ export default function Cadastro() {
                         </View>
             }
             {cont == 3&&<View>
-                            <Text style={styles.tituloInput}>Insira o telefone</Text>
+                            <Text style={styles.tituloInput}>Telefone:</Text>
                             <TextInput
                                 value={telefone} 
-                                keyboardType="phone-pad" 
+                                keyboardType="phone-pad"
+                                placeholder="Telefone"
+                                placeholderTextColor="#808080"
                                 style={styles.campoCadastro} 
                                 onChangeText={(text) => {
                                     setTelefone(text);
@@ -128,9 +134,11 @@ export default function Cadastro() {
                         </View>
             }
             {cont == 4&&<View>
-                            <Text style={styles.tituloInput}>Insira o tipo de usuário</Text>
+                            <Text style={styles.tituloInput}>Tipo de usuário:</Text>
                             <TextInput
-                                value={tipo} 
+                                value={tipo}
+                                placeholder="Tipo de usuário"
+                                placeholderTextColor="#808080"
                                 style={styles.campoCadastro} 
                                 onChangeText={(text) => {
                                     setTipo(text);
@@ -140,9 +148,11 @@ export default function Cadastro() {
                         </View>
             }
             {cont == 5&&<View>
-                            <Text style={styles.tituloInput}>Insira a senha</Text>
+                            <Text style={styles.tituloInput}>Senha:</Text>
                             <TextInput
-                                value={senha} 
+                                value={senha}
+                                placeholder="Senha"
+                                placeholderTextColor="#808080"
                                 secureTextEntry={true} 
                                 style={styles.campoCadastro} 
                                 onChangeText={(text) => {
@@ -162,14 +172,14 @@ export default function Cadastro() {
                                             setHabilita(true);
                                         }}
                                     >
-                                        <Text style={styles.tituloEntrar}>Avançar</Text>
+                                        <Text style={styles.tituloEntrar}>Avançar <Icon name="forward" color="white" size={22}/></Text>
                                     </TouchableHighlight>
                                 </>
             }
             {cont == 5 && <TouchableHighlight
                             disabled={habilita}
                             underlayColor="white" 
-                            style={habilita ? [styles.botaoEntrarDesabilitado] : [styles.botaoEntrarHabilitado]}
+                            style={habilita ? [styles.botaoEntrarDesabilitado] : [styles.botaoFinalizaHabilitado]}
                             onPress={() => handleRegisterIn()}
                         >
                             <Text style={styles.tituloEntrar}>Finalizar cadastro</Text>

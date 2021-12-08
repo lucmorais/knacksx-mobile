@@ -57,7 +57,7 @@ export default function Reset() {
             }
         } else {
             setRetorno(true);
-            Animated.timing(redSquareAnim, {toValue: 200, duration: 500, useNativeDriver: true}).start();
+            Animated.timing(redSquareAnim, {toValue: 220, duration: 500, useNativeDriver: true}).start();
             setTimeout(() => {
                 Animated.timing(redSquareAnim, {toValue: -200, duration: 500, useNativeDriver: true}).start();
             }, 5000);
@@ -82,13 +82,13 @@ export default function Reset() {
                 <TextInput 
                     placeholder="Digite seu email" 
                     keyboardType="email-address"
-                    placeholderTextColor="#555555"
+                    placeholderTextColor="#808080"
                     style={styles.campo}
                     onChangeText={(text) => setEmail(text)}
                 />
                 <View style={styles.caixaBotoes}>
                     <TouchableHighlight
-                        underlayColor="black" 
+                        underlayColor="#E9E3CE" 
                         style={styles.botaoReset} 
                         onPress={() => {
                             Keyboard.dismiss();
@@ -98,7 +98,7 @@ export default function Reset() {
                         <Text style={styles.textoReset}>Enviar código</Text>
                     </TouchableHighlight>
                     <TouchableHighlight
-                        underlayColor="black" 
+                        underlayColor="#808080" 
                         style={styles.botaoResetCancelar} 
                         onPress={() => {
                             modificaReset();
@@ -122,23 +122,23 @@ export default function Reset() {
                     }
                     {sucesso ? 
                         <>
-                                <Text style={styles.tituloReset}>Insira o código que enviamos para o seu email</Text>
+                                <Text style={styles.tituloReset}>Insira o código enviado para o email e a nova senha</Text>
                                 <TextInput 
                                     placeholder="Código"
-                                    placeholderTextColor="#555555"
+                                    placeholderTextColor="#808080"
                                     style={styles.campo}
                                     onChangeText={(text) => setCodigo(text)}
                                 />
                                 <TextInput
                                     placeholder="Nova senha"
-                                    placeholderTextColor="#555555" 
+                                    placeholderTextColor="#808080"
                                     secureTextEntry={true} 
                                     style={styles.campo}
                                     onChangeText={(text) => setSenha(text)}
                                 />
                                 <TouchableHighlight
                                     disabled={validaCodigo(codigo) && senha ? false : true}
-                                    underlayColor="black"
+                                    underlayColor="#E9E3CE"
                                     style={validaCodigo(codigo) && senha ? [styles.botaoReset] : [styles.botaoResetDesabilitado]} 
                                     onPress={() => {
                                         Keyboard.dismiss();

@@ -10,6 +10,17 @@ export default StyleSheet.create({
         paddingLeft: 10
     },
 
+    campoCadastroErrado: {
+        backgroundColor: '#fff',
+        marginBottom: 10,
+        height: 60,
+        borderRadius: 10,
+        fontSize:16,
+        paddingLeft: 10,
+        borderWidth: 4,
+        borderColor: '#FF0800'
+    },
+
     tituloEntrar: {
         fontSize: 22,
         color: 'white',
@@ -20,7 +31,7 @@ export default StyleSheet.create({
     botaoEntrarHabilitado: {
         paddingVertical: 10,
         borderRadius: 20,
-        marginTop: 40,
+        marginTop: 25,
         backgroundColor: '#474A51',
     },
 
@@ -44,17 +55,15 @@ export default StyleSheet.create({
     },
 
     caixaAlerta: {
-        alignItems: 'center',
-        borderRadius: 10,
-        backgroundColor: 'white',
-        opacity: 0.8,
-        paddingVertical: 15
+        height: 215,
+        width: '100%',
+        marginTop: 0,
     },
     
     botaoEntrarDesabilitado: {
         paddingVertical: 10,
         borderRadius: 20,
-        marginTop: 40,
+        marginTop: 25,
         backgroundColor: '#353839',
         opacity: 0.3
     },
@@ -63,7 +72,7 @@ export default StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         color: 'white',
-        marginBottom: 50,
+        marginBottom: 70,
         textAlign: 'center'
     },
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TextInput, TouchableHighlight, Text, View, ActivityIndicator, Animated, Keyboard } from 'react-native';
+import isEmail from 'validator/lib/isEmail';
 import Alerta from '../../../components/Alerta';
 import { useAuth } from '../../../contexts/auth';
 import { http } from '../../../utils/http';
@@ -14,13 +15,42 @@ export default function Reset() {
     const [carrega, setCarrega] = useState(false);
     const [retorno, setRetorno] = useState(false);
     const [sucesso, setSucesso] = useState(true);
+    const [habilitaEmail, setHabilitaEmail] = useState(false);
+    const [habilitaCodigo, setHabilitaCodigo] = useState(false);
+    const [habilitaSenha, setHabilitaSenha] = useState(false);
+    const [estadoEmail, setEstadoEmail]  = useState(true);
+    const [estadoCodigo, setEstadoCodigo]  = useState(true);
+    const [estadoSenha, setEstadoSenha]  = useState(true);
     const [redSquareAnim] = useState(new Animated.Value(0));
 
-    function validaCodigo(codigo: string) {
-        if (codigo.length != 8)
-            return false
-        else
-            return true
+    function validaCodigo(text: string) {
+        if (text.length < 8) {
+            setEstadoCodigo(false);
+            setHabilitaCodigo(false);
+        }
+        else {
+            setHabilitaCodigo(true);
+        }
+    }
+
+    function validaSenha(text: string) {
+        if (text.length < 5) {
+            setEstadoSenha(false);
+            setHabilitaSenha(false);
+        }
+        else {
+            setHabilitaSenha(true);
+        }
+    }
+
+    function validaEmail(text: string) {
+        if (!isEmail(text)) {
+            setEstadoEmail(false);
+            setHabilitaEmail(false);
+        }
+        else {
+            setHabilitaEmail(true);
+        }
     }
 
     async function enviaEmail() {
@@ -70,7 +100,7 @@ export default function Reset() {
             <>  
                 <Animated.View style={{transform: [{translateY: redSquareAnim}]}}>
                     <View style={styles.retorno}>
-                        {retorno && !carrega && <Alerta tipo={'times'} mensagem={'Email não localizado'}/>}
+                        {retorno && !carrega && <Alerta tipo={'times'} cor={'#FF0800'} mensagem={'Email não localizado'}/>}
                     </View>
                 </Animated.View>
                 {carrega && 
@@ -79,17 +109,21 @@ export default function Reset() {
                     </View>
                 }
                 <Text style={styles.tituloReset}>Insira seu email cadastrado para recuperar a senha</Text>
-                <TextInput 
-                    placeholder="Digite seu email" 
+                <TextInput
+                    placeholder="Digite seu email"
                     keyboardType="email-address"
                     placeholderTextColor="#808080"
-                    style={styles.campo}
-                    onChangeText={(text) => setEmail(text)}
+                    style={habilitaEmail || estadoEmail ? [styles.campo] : [styles.campoCadastroErrado]}
+                    onChangeText={(text) => {
+                        setEmail(text);
+                        validaEmail(text);
+                    }}
                 />
                 <View style={styles.caixaBotoes}>
                     <TouchableHighlight
+                        disabled={habilitaEmail ? false : true}
                         underlayColor="#E9E3CE" 
-                        style={styles.botaoReset} 
+                        style={habilitaEmail ? [styles.botaoReset] : [styles.botaoResetDesabilitado]} 
                         onPress={() => {
                             Keyboard.dismiss();
                             enviaEmail();
@@ -112,7 +146,7 @@ export default function Reset() {
             </>:<>
                     <Animated.View style={{transform: [{translateY: redSquareAnim}]}}>
                         <View style={styles.retorno}>
-                            {retorno && !carrega && <Alerta tipo={'times'} mensagem={'Código invalido'}/>}
+                            {retorno && !carrega && <Alerta tipo={'times'} cor={'#FF0800'} mensagem={'Código invalido'}/>}
                         </View>
                     </Animated.View>
                     {carrega && 
@@ -125,21 +159,29 @@ export default function Reset() {
                                 <Text style={styles.tituloReset}>Insira o código enviado para o email e a nova senha</Text>
                                 <TextInput 
                                     placeholder="Código"
+                                    maxLength={8}
                                     placeholderTextColor="#808080"
-                                    style={styles.campo}
-                                    onChangeText={(text) => setCodigo(text)}
+                                    style={habilitaCodigo || estadoCodigo ? [styles.campo] : [styles.campoCadastroErrado]}
+                                    onChangeText={(text) => {
+                                        setCodigo(text);
+                                        validaCodigo(text);
+                                    }}
                                 />
                                 <TextInput
                                     placeholder="Nova senha"
                                     placeholderTextColor="#808080"
-                                    secureTextEntry={true} 
-                                    style={styles.campo}
-                                    onChangeText={(text) => setSenha(text)}
+                                    maxLength={8}
+                                    secureTextEntry={true}
+                                    style={habilitaSenha || estadoSenha ? [styles.campo] : [styles.campoCadastroErrado]}
+                                    onChangeText={(text) => {
+                                        setSenha(text);
+                                        validaSenha(text);
+                                    }}
                                 />
                                 <TouchableHighlight
-                                    disabled={validaCodigo(codigo) && senha ? false : true}
+                                    disabled={habilitaCodigo && habilitaSenha ? false : true}
                                     underlayColor="#E9E3CE"
-                                    style={validaCodigo(codigo) && senha ? [styles.botaoReset] : [styles.botaoResetDesabilitado]} 
+                                    style={habilitaCodigo && habilitaSenha ? [styles.botaoReset] : [styles.botaoResetDesabilitado]} 
                                     onPress={() => {
                                         Keyboard.dismiss();
                                         trocaSenha();
@@ -149,7 +191,8 @@ export default function Reset() {
                                 </TouchableHighlight>
                         </>: <View style={styles.sucesso}>
                                 <Alerta 
-                                    tipo={'check'} 
+                                    tipo={'check'}
+                                    cor={'#229A00'}
                                     mensagem={'Senha alterada com sucesso! Você será redirecionado(a) para a tela de login...'}
                                 />
                             </View>}

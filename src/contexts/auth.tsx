@@ -16,10 +16,10 @@ interface AuthContextProps {
     user: User | null;
     loading: boolean;
     formLogin: boolean;
-    deny: boolean;
     reset: boolean;
+    deny: boolean;
+    error: null | boolean;
     modificaReset(): void;
-    modificaDeny(): void;
     modificaFormLogin(): void;
     registerIn(nome: string, tipo: string, email: string, telefone: string, senha: string): Promise<void>;
     logIn(email: string, senha: string): Promise<void>;
@@ -32,8 +32,9 @@ export const AuthProvider: React.FC = ({children}) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(false);
     const [formLogin, setFormLogin] = useState(true);
-    const [deny, setDeny] = useState(false);
     const [reset, setReset] = useState(true);
+    const [deny, setDeny] = useState(false);
+    const [error, setError] = useState<boolean | null>(false);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -53,36 +54,53 @@ export const AuthProvider: React.FC = ({children}) => {
         reset ? setReset(false) : setReset(true);
     }
 
-    function modificaDeny() {
-        deny ? setDeny(false) : setDeny(true);
-    }
-
     function modificaFormLogin() {
         formLogin ? setFormLogin(false) : setFormLogin(true);
     }
 
     async function registerIn(nome: string, tipo: string, email: string, telefone: string, senha: string) {
-        const { data } = await register.default(nome, tipo, email, telefone, senha);
-
-        if(data){
+        try {
+            const { data } = await register.default(nome, tipo, email, telefone, senha);
+    
+            if(data){
+                setError(true);
+                setTimeout(() => {
+                    modificaFormLogin();
+                    setError(null);
+                }, 5000);
+            }
+        } catch (error) {
+            console.log('Deu erro no cadastro');
+            setError(false);
             setTimeout(() => {
                 modificaFormLogin();
+                setError(null);
             }, 5000);
         }
     }
 
     async function logIn(email: string, senha: string) {
-        setLoading(true);
-        const { data } = await auth.default(email, senha);
-        
-        if (data) {
+        try {
+            setLoading(true);
+            const { data } = await auth.default(email, senha);
+            
+            if (data) {
+                setLoading(false);
+                setUser(data.user);
+                http.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`;
+                await AsyncStorage.setItem('@Wise:user', JSON.stringify(data.user));
+                await AsyncStorage.setItem('@Wise:token', data.access_token);
+            } else {
+                setUser(null);
+            }
+            
+        } catch (error) {
             setLoading(false);
-            setUser(data.user);
-            http.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`;
-            await AsyncStorage.setItem('@Wise:user', JSON.stringify(data.user));
-            await AsyncStorage.setItem('@Wise:token', data.access_token);
-        } else {
             setUser(null);
+            setDeny(true);
+            setTimeout(() => {
+                setDeny(false);
+            }, 5000);
         }
     }
 
@@ -99,10 +117,10 @@ export const AuthProvider: React.FC = ({children}) => {
                 user, 
                 formLogin: formLogin, 
                 loading,
-                deny: deny,
                 reset: reset,
+                deny: deny,
+                error: error,
                 modificaReset,
-                modificaDeny,
                 modificaFormLogin,
                 registerIn,
                 logIn,

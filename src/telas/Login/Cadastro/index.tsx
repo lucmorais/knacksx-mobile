@@ -1,29 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TextInput, View, Text, TouchableHighlight, LayoutAnimation } from 'react-native';
+import { TextInput, View, Text, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useAuth } from '../../../contexts/auth';
 import styles from './styles';
+import { Picker } from '@react-native-picker/picker';
+import isEmail from 'validator/lib/isEmail';
+import { http } from '../../../utils/http';
+import Alerta from '../../../components/Alerta';
 
+ 
 export default function Cadastro() {
-    const { modificaFormLogin, registerIn } = useAuth();
+    const { registerIn, error } = useAuth();
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [nome, setNome] = useState('');
     const [telefone, setTelefone] = useState('');
-    const [tipo, setTipo] = useState('');
     const [cont, setCont] = useState(1);
-    const [habilita, setHabilita] = useState(true);
-
-    useEffect(() => {
-        if(cont == 1) {
-            if (nome.length < 3) {
-                
-                setHabilita(true)
-            } else {
-                setHabilita(false)
-            }
-        }
-    },[nome])
+    const [habilita, setHabilita] = useState<boolean | any>(true);
+    const [tipo, setTipo] = useState('');
+    const [estado, setEstado] = useState(false);
     
     function handleRegisterIn() {
         registerIn(nome, tipo, email, telefone, senha);
@@ -38,41 +33,46 @@ export default function Cadastro() {
 
     function validaCampo(text: string) {
         if(cont == 1) {
-            if (text.length < 3) {
-                
+            if (text.length == 0) {
+                setEstado(true);
                 setHabilita(true);
             } else {
+                setEstado(false);
                 setHabilita(false);
             }
         }
         if(cont == 2) {
-            if (text.length < 10) {
-                
+            
+            if (!isEmail(text)) {
+                setEstado(true);
                 setHabilita(true);
             } else {
+                setEstado(false);
                 setHabilita(false);
             }
         }
         if(cont == 3) {
-            if (text.length < 10 || text.length > 11) {
-                
+            if (text.length < 10) {
+                setEstado(true);
                 setHabilita(true);
             } else {
+                setEstado(false);
                 setHabilita(false);
             }
         }
         if(cont == 4) {
-            if (text == 'Candidato' || text == 'Gestor') {
+            if (text != '') {
                 setHabilita(false);
             } else {
                 setHabilita(true);
             }
         }
         if(cont == 5) {
-            if (text.length < 6) {
-                
+            if (text.length < 5) {
+                setEstado(true);
                 setHabilita(true);
             } else {
+                setEstado(false);
                 setHabilita(false);
             }
         }
@@ -82,20 +82,16 @@ export default function Cadastro() {
     function next() {
         setCont(cont+1);
     }
-
-    function previus() {
-        setCont(cont-1);
-    }
-
+    
     return (
         <View>
-            <Text style={styles.tituloCadastro}>Cadastro de usuário</Text>
+            <Text style={styles.tituloCadastro}>Cadastre-se</Text>
             {cont == 1&&<View>
                             <TextInput
                                 value={nome}
                                 placeholder="Nome"
                                 placeholderTextColor="#808080"
-                                style={styles.campoCadastro}
+                                style={!estado ? [styles.campoCadastro] : [styles.campoCadastroErrado]}
                                 onChangeText={(text) => {
                                     setNome(text);
                                     validaCampo(text);
@@ -104,13 +100,12 @@ export default function Cadastro() {
                         </View>
             }
             {cont == 2&&<View>
-                            <Text style={styles.tituloInput}>Email:</Text>
                             <TextInput
                                 value={email} 
                                 keyboardType="email-address"
                                 placeholder="Email"
                                 placeholderTextColor="#808080"
-                                style={styles.campoCadastro} 
+                                style={!estado ? [styles.campoCadastro] : [styles.campoCadastroErrado]} 
                                 onChangeText={(text) => {
                                     setEmail(text);
                                     validaCampo(text);
@@ -119,13 +114,13 @@ export default function Cadastro() {
                         </View>
             }
             {cont == 3&&<View>
-                            <Text style={styles.tituloInput}>Telefone:</Text>
                             <TextInput
                                 value={telefone} 
                                 keyboardType="phone-pad"
                                 placeholder="Telefone"
                                 placeholderTextColor="#808080"
-                                style={styles.campoCadastro} 
+                                style={!estado ? [styles.campoCadastro] : [styles.campoCadastroErrado]}
+                                maxLength={11}
                                 onChangeText={(text) => {
                                     setTelefone(text);
                                     validaCampo(text);
@@ -134,27 +129,27 @@ export default function Cadastro() {
                         </View>
             }
             {cont == 4&&<View>
-                            <Text style={styles.tituloInput}>Tipo de usuário:</Text>
-                            <TextInput
-                                value={tipo}
-                                placeholder="Tipo de usuário"
-                                placeholderTextColor="#808080"
-                                style={styles.campoCadastro} 
-                                onChangeText={(text) => {
-                                    setTipo(text);
-                                    validaCampo(text);
-                                }}
-                            />
+                            <Picker
+                                style={styles.campoCadastro}
+                                selectedValue={tipo}
+                                onValueChange={(itemValue: string, itemIndex) => {
+                                    setTipo(itemValue);
+                                    validaCampo(itemValue);
+                                }}>
+                                {!tipo && <Picker.Item style={{color: '#808080'}} enabled={false} label="Selecione o tipo" />}
+                                <Picker.Item label="Candidato" value="Candidato" />
+                                <Picker.Item label="Gestor" value="Gestor" />
+                            </Picker>
                         </View>
             }
             {cont == 5&&<View>
-                            <Text style={styles.tituloInput}>Senha:</Text>
                             <TextInput
                                 value={senha}
+                                maxLength={8}
                                 placeholder="Senha"
                                 placeholderTextColor="#808080"
                                 secureTextEntry={true} 
-                                style={styles.campoCadastro} 
+                                style={!estado ? [styles.campoCadastro] : [styles.campoCadastroErrado]} 
                                 onChangeText={(text) => {
                                     setSenha(text);
                                     validaCampo(text);
@@ -184,13 +179,22 @@ export default function Cadastro() {
                         >
                             <Text style={styles.tituloEntrar}>Finalizar cadastro</Text>
                         </TouchableHighlight>
-
             }
-            {cont == 6&&<View style={styles.caixaAlerta}>
-                            <Icon name="check" color="#229A00" size={50}/>
-                            <Text style={styles.alertaCadastro}>Cadastro efetuado com sucesso</Text>
-                            <Text style={styles.avisoCadastro}>Você será redirecionado(a) para a tela de Login...</Text>
-                        </View>
+            {cont == 6 &&
+                <View style={styles.caixaAlerta}>
+                    {error ?
+                        <Alerta 
+                            tipo={'check'} 
+                            cor={'#229A00'} 
+                            mensagem={'Cadastro efetuado com sucesso! Você será redirecionado(a) para a tela inicial...'}
+                        /> :
+                        <Alerta 
+                            tipo={'times'} 
+                            cor={'#FF0800'} 
+                            mensagem={'Não foi possível efetuar o cadastro! Você será redirecionado(a) para a tela de inicial...'}
+                        />
+                    }
+                </View>
             }
         </View>
     )

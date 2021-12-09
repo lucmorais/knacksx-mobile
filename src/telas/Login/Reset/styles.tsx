@@ -15,6 +15,17 @@ export default StyleSheet.create({
         fontSize:16,
         paddingLeft: 10
     },
+    
+    campoCadastroErrado: {
+        backgroundColor: '#fff',
+        marginBottom: 10,
+        height: 60,
+        borderRadius: 10,
+        fontSize:16,
+        paddingLeft: 10,
+        borderWidth: 4,
+        borderColor: '#FF0800'
+    },
 
     botaoResetDesabilitado: {
         backgroundColor: '#42b72a',

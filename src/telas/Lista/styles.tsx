@@ -15,5 +15,12 @@ export default StyleSheet.create({
 
     botao: {
         padding: 24
+    },
+
+    resultado: {
+        fontSize: 16,
+        textAlignVertical: 'center',
+        color: '#808080',
+        marginHorizontal: 24,
     }
 })

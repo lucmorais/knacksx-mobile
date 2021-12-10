@@ -11,7 +11,11 @@ export default function Lista() {
     const [buscaExperiancias, setBuscaExperiencias] = useState([]);
     
     useEffect(() => {
-        listaGestor ? buscarTodos() : buscarExp(); 
+        listaGestor ? buscarTodos() : buscarExp();
+        return () => {
+            setBuscaAll([]);
+            setBuscaExperiencias([]);
+        } 
     }, [listaGestor]);
 
     async function buscarTodos() {
@@ -19,7 +23,6 @@ export default function Lista() {
 
         setBuscaAll(data);
         setBuscaExperiencias([]);
-        console.log(buscaExperiancias.length);
     }
 
     async function buscarExp() {
@@ -27,16 +30,17 @@ export default function Lista() {
 
         setBuscaExperiencias(data);
         setBuscaAll([]);
-        console.log(buscaAll.length);
     }
 
     return (
             listaGestor?<>
                             <Text style={styles.titulo}>Listagem de todos candidatos</Text>
-                            <FlatList data={buscaAll} renderItem={({item}) => <ListaGestor {...item}/>} />
+                            <Text style={styles.resultado}>Resultado da pesquisa: {buscaAll.length}</Text>
+                            <FlatList style={{marginTop: 10}} data={buscaAll} renderItem={({item}) => <ListaGestor {...item}/>} />
                         </>:<>
                                 <Text style={styles.titulo}>Listagem candidatos com perfil completo</Text>
-                                <FlatList data={buscaExperiancias} renderItem={({item}) => <ListaGestor {...item}/>} />
+                                <Text style={styles.resultado}>Resultado da pesquisa: {buscaExperiancias.length}</Text>
+                                <FlatList style={{marginTop: 10}} data={buscaExperiancias} renderItem={({item}) => <ListaGestor {...item}/>} />
                             </>
     )
 }

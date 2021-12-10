@@ -8,7 +8,13 @@ export default StyleSheet.create({
     },
 
     botao: {
-        paddingRight: 16,
+        marginRight: 16,
+        backgroundColor: 'white',
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'white'
     },
 
     icone: {
@@ -22,10 +28,11 @@ export default StyleSheet.create({
 
     botaoLogout: {
         paddingRight: 16,
+        paddingVertical: 7,
         paddingLeft: 16,
         marginRight: 16,
         backgroundColor: 'white',
-        borderRadius: 5
+        borderRadius: 10
     },
 
     botaoCadastro: {
@@ -41,5 +48,12 @@ export default StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: 'white'
-    }
+    },
+
+    textoAdicionar: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#345D7E',
+        textAlign:'center'
+    },
 })

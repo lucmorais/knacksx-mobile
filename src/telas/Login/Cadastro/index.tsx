@@ -5,7 +5,6 @@ import { useAuth } from '../../../contexts/auth';
 import styles from './styles';
 import { Picker } from '@react-native-picker/picker';
 import isEmail from 'validator/lib/isEmail';
-import { http } from '../../../utils/http';
 import Alerta from '../../../components/Alerta';
 
  
@@ -85,7 +84,7 @@ export default function Cadastro() {
     
     return (
         <View>
-            <Text style={styles.tituloCadastro}>Cadastre-se</Text>
+            {cont != 6 &&<Text style={styles.tituloCadastro}>Cadastre-se</Text>}
             {cont == 1&&<View>
                             <TextInput
                                 value={nome}
@@ -180,20 +179,13 @@ export default function Cadastro() {
                             <Text style={styles.tituloEntrar}>Finalizar cadastro</Text>
                         </TouchableHighlight>
             }
-            {cont == 6 &&
+            {cont == 6 && error &&
                 <View style={styles.caixaAlerta}>
-                    {error ?
                         <Alerta 
                             tipo={'check'} 
                             cor={'#229A00'} 
                             mensagem={'Cadastro efetuado com sucesso! Você será redirecionado(a) para a tela inicial...'}
-                        /> :
-                        <Alerta 
-                            tipo={'times'} 
-                            cor={'#FF0800'} 
-                            mensagem={'Não foi possível efetuar o cadastro! Você será redirecionado(a) para a tela de inicial...'}
-                        />
-                    }
+                        /> 
                 </View>
             }
         </View>

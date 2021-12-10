@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useState } from "react";
-import { View, Text, Button, SectionList } from "react-native";
+import { View, Text, Button, ScrollView, TouchableHighlight} from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import Detalhes from "../Detalhes";
 import DetalhesExperiencias from "../DetalhesExperiencias";
@@ -8,63 +8,65 @@ import styles from "./styles";
 
 export default function ListaGestor({nome, email, telefone, habilidades, experiencias}: any) {
     const [detalhes, setDetalhes] = useState(true);
-    const [detalhesHabilidades, setDetalhesHabilidades] = useState(false);
-    const [detalhesExperiencias, setDetalhesExperiencias] = useState(false);
 
     return (
         detalhes? <>
                     <View>
                         <View style={styles.caixa}>
                             <View >
-                                <Text >{nome}</Text>
+                                <Text style={styles.tituloNome}>{nome}</Text>
                             </View>
                             <View >
-                                <Text >{email}</Text>
-                            </View>
-                            <View>
-                                <Text >{telefone}</Text>
-                            </View>
-                        </View>
-                        <View style={styles.caixa}>
-                            <View>
-                                <Button title="Detalhes" color="#345D7E" onPress={() => {
+                            <TouchableHighlight
+                                underlayColor="#E9E3CE" 
+                                style={styles.botaoMostrar} 
+                                onPress={() => {
                                     setDetalhes(false);
-                                }}/>
+                                }}
+                            >
+                                <Text style={styles.textoAdicionar}>Detalhes</Text>
+                            </TouchableHighlight>
                             </View>
                         </View>
                     </View>
                     <View style={styles.divisor}/>
                 </>:<View style={styles.caixaDetalhes}>
-                        <View style={styles.cabecalho}>
-                            <View>
-                                <Text style={styles.nome}>{nome}</Text>
-                            </View>
-                            <View>
-                                <Button title="Esconder detalhes" onPress={() => {
-                                    setDetalhes(true);
-                                }}/>
+                        <View>
+                            <View style={styles.cabecalho}>
+                                <Text style={styles.nome}>NOME</Text>
+                                <Text style={styles.tituloDados}>{nome}</Text>
+                                <Text style={styles.nome}>EMAIL</Text>
+                                <Text style={styles.tituloDados}>{email}</Text>
+                                <Text style={styles.nome}>TELEFONE</Text>
+                                <Text style={styles.tituloDados}>{telefone}</Text>
                             </View>
                         </View>
-                        <View>
+                        {habilidades.length > 0 && <View>
                             <Text style={styles.tituloDetalhes}>Habilidades</Text>
                             <FlatList
                                 data={habilidades}
                                 renderItem={({ item }) => <Detalhes {...item} />}
                                 listKey={(_item: any, index: { toString: () => string; }) => 'D' + index.toString()}
                             />
-                        </View>
-                        <View>
+                        </View>}
+                        {experiencias. length > 0 &&<View>
                             <Text style={styles.tituloDetalhes}>Experiencias</Text>
                             <FlatList
                                 data={experiencias}
                                 renderItem={({ item }) => <DetalhesExperiencias {...item} />}
                                 listKey={(item: any, index: { toString: () => string; }) => 'D' + index.toString()}
                             />
-                        </View>
+                        </View>}
                         <View>
-                            <Button title="Esconder detalhes" onPress={() => {
-                                setDetalhes(true);
-                            }}/>
+                            <TouchableHighlight
+                                underlayColor="#E9E3CE" 
+                                style={styles.botao} 
+                                onPress={() => {
+                                    setDetalhes(true);
+                                }}
+                            >
+                                <Text style={styles.textoAdicionar}>Esconder detalhes</Text>
+                            </TouchableHighlight>
                         </View>
                     </View>
     )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Button, Text, TextInput, ScrollView, FlatList } from 'react-native';
+import { View, Button, Text, TextInput, ScrollView, FlatList, TouchableHighlight } from 'react-native';
 import ListaGestor from '../../components/ListaGestor';
 import { useAuth } from '../../contexts/auth';
 import { http } from '../../utils/http';
@@ -20,27 +20,33 @@ export default function Home() {
     const [editar, setEditar] = useState(false);
     const [salvar, setSalvar] = useState(false);
     const [cancelar, setCancelar] = useState(false);
-    const [nome, setNome] = useState('');
+    const [telefone, setTelefone] = useState('');
     const [email, setEmail] = useState('');
     const [dados, setDados] = useState({} as Dados);
     const [habilidade, setHabilidade] = useState('');
     const [consulta, setConsulta] = useState<object[]>([]);
-    const [foco, setFoco] = useState(false);
     const [lista, setLista] = useState(true);
 
     useEffect(() => {
         buscaPerfil();
+        return () => {
+            setTelefone('');
+            setEmail('');
+            setHabilidade('');
+            setDados({} as any);
+            setConsulta([]);
+        }
     }, []);
 
     async function buscaPerfil() {
         const { data } = await http.get(`/usuarios/${user?.id}`);
        
-        setNome(data.nome);
+        setTelefone(data.telefone);
         setEmail(data.email);
     }
 
     async function atualizarUsuario() {
-        const { data } = await http.put(`/usuarios/${user?.id}`, { nome, email });
+        const { data } = await http.put(`/usuarios/${user?.id}`, { telefone, email });
 
         setDados(data);
     }
@@ -58,18 +64,6 @@ export default function Home() {
                 <Text style={styles.titulo}>Perfil</Text>
                 <View style={styles.conteudo}>
                     <View>
-                        <TextInput
-                            editable={editar} 
-                            selectTextOnFocus={editar} 
-                            style={styles.campo} 
-                            defaultValue={dados.nome ? dados.nome : nome}
-                            onChangeText={(texto) => {
-                                if (texto != nome) {
-                                    setSalvar(true);
-                                    setNome(texto);
-                                }
-                            }}
-                        ></TextInput>
                         <TextInput 
                             editable={editar} 
                             selectTextOnFocus={editar} 
@@ -83,35 +77,36 @@ export default function Home() {
                                 }
                             }}
                         ></TextInput>
-                        <View style={styles.botaoEditar}>
-                            {!cancelar && 
-                                <Button 
-                                    title="Editar perfil" 
-                                    color="green" 
-                                    onPress={() => {
-                                    setEditar(true);
-                                    setCancelar(true);
-                                }}
-                                />
-                            }
-                        </View>
-                        <View style={styles.botaoEditar}>
-                            {cancelar && 
-                                <Button
-                                    title="Cancelar" 
-                                    onPress={() => {
-                                        buscaPerfil();
-                                        setEditar(false);
-                                        setSalvar(false);
-                                        setCancelar(false);
-                                    }}
-                                    color="red"
-                                />
-                            }
-                        </View>
-                        <View style={styles.botaoEditar}>
-                            {salvar && 
-                                <Button title="Salvar alterações" onPress={() => {
+                        <TextInput
+                            keyboardType="number-pad"
+                            editable={editar} 
+                            selectTextOnFocus={editar} 
+                            style={styles.campo} 
+                            defaultValue={dados.telefone ? dados.telefone : telefone}
+                            onChangeText={(texto) => {
+                                if (texto != telefone) {
+                                    setSalvar(true);
+                                    setTelefone(texto);
+                                }
+                            }}
+                        ></TextInput>
+                        <TouchableHighlight
+                            disabled={!cancelar ? false : true}
+                            underlayColor="#E9E3CE" 
+                            style={!cancelar ? [styles.botaoEditar] : [styles.botaoEditarDesabilitado]} 
+                            onPress={() => {
+                                setEditar(true);
+                                setCancelar(true);
+                            }}
+                        >
+                            <Text style={styles.textoEditar}>Editar</Text>
+                        </TouchableHighlight>
+                        <View style={styles.botaoSalvar}>
+                            <TouchableHighlight
+                                disabled={salvar ? false : true}
+                                underlayColor="#E9E3CE" 
+                                style={salvar ? [styles.botaoAlterar] : [styles.botaoAlterarDesabilitado]} 
+                                onPress={() => {
                                     atualizarUsuario();
                                     setEditar(false);
                                     alert('Perfil atualizado!');
@@ -119,8 +114,22 @@ export default function Home() {
                                     setCancelar(false);
                                     buscaPerfil();   
                                 }}
-                                />
-                            }
+                            >
+                                <Text style={styles.textoEditar}>Salvar alterações</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                                disabled={cancelar ? false : true}
+                                underlayColor="#E9E3CE" 
+                                style={cancelar ? [styles.botaoCancelar] : [styles.botaoCancelarDesabilitado]} 
+                                onPress={() => {
+                                    buscaPerfil();
+                                    setEditar(false);
+                                    setSalvar(false);
+                                    setCancelar(false);  
+                                }}
+                            >
+                                <Text style={styles.textoEditar}>Cancelar</Text>
+                            </TouchableHighlight>
                         </View>
                     </View>
                 </View>
@@ -136,26 +145,39 @@ export default function Home() {
                             <View style={styles.containerGestor}>
                                 <TextInput
                                     placeholder="Digite a habilidade"
-                                    onFocus={() => setFoco(true)}
+                                    placeholderTextColor="#808080"
                                     onChangeText={(texto) => {
                                         setHabilidade(texto);
                                     }}
-                                    style={foco ? [styles.campo, styles.bordaCampo] : [styles.campo]}
+                                    style={styles.campo}
                                 />
+                                <TouchableHighlight
+                                    underlayColor="white" 
+                                    style={styles.botaoBuscar} 
+                                    onPress={() => {
+                                        filtroHabilidade();
+                                    }}
+                                >
+                                    <Text style={styles.textoBuscar}>Buscar</Text>
+                                </TouchableHighlight>
                             </View>
-                            <View style={styles.containerGestor}>
-                                <Button title="Buscar" onPress={() => {
-                                    filtroHabilidade();
-                                    setHabilidade('');
-                                }}/>
-                            </View>
+                            
                         </ScrollView>
-                    </>:<View>
-                            <Button title="Voltar" onPress={() => {
-                                setLista(true);
-                                setConsulta([]);
-                            }}/>
-                            <FlatList renderItem={({item}) => <ListaGestor {...item}/>} data={consulta} />    
+                    </>:<View style={{flex:1}}>
+                            <Text style={styles.tituloResultado}>Habilidade: {habilidade}</Text>
+                            <Text style={styles.resultado}>Resultado da pesquisa: {consulta.length}</Text>
+                            <FlatList style={{marginVertical: 10}} renderItem={({item}) => <ListaGestor {...item}/>} data={consulta} />
+                            <TouchableHighlight
+                                underlayColor="#808080"
+                                style={styles.botaoVoltar} 
+                                onPress={() => {
+                                    setHabilidade('');
+                                    setLista(true);
+                                    setConsulta([]);
+                                }}
+                            >
+                                <Text style={styles.textoVoltar}>Buscar candidatos</Text>
+                            </TouchableHighlight>
                         </View> }
         </>
     )

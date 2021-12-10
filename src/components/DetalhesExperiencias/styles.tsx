@@ -8,8 +8,6 @@ export default StyleSheet.create({
     },
     
     divisor: {
-        borderBottomWidth: 2,
-        borderBottomColor: '#C7C7C7',
         marginBottom: 20,
         marginTop: 20
     },

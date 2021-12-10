@@ -18,7 +18,8 @@ interface AuthContextProps {
     formLogin: boolean;
     reset: boolean;
     deny: boolean;
-    error: null | boolean;
+    error: boolean;
+    modificaError(): void;
     modificaReset(): void;
     modificaFormLogin(): void;
     registerIn(nome: string, tipo: string, email: string, telefone: string, senha: string): Promise<void>;
@@ -34,7 +35,7 @@ export const AuthProvider: React.FC = ({children}) => {
     const [formLogin, setFormLogin] = useState(true);
     const [reset, setReset] = useState(true);
     const [deny, setDeny] = useState(false);
-    const [error, setError] = useState<boolean | null>(false);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -50,6 +51,10 @@ export const AuthProvider: React.FC = ({children}) => {
         loadStoragedData();
     }, []);
 
+    function modificaError() {
+        error ? setError(false) : setError(true);
+    }
+
     function modificaReset() {
         reset ? setReset(false) : setReset(true);
     }
@@ -59,22 +64,12 @@ export const AuthProvider: React.FC = ({children}) => {
     }
 
     async function registerIn(nome: string, tipo: string, email: string, telefone: string, senha: string) {
-        try {
-            const { data } = await register.default(nome, tipo, email, telefone, senha);
-    
-            if(data){
-                setError(true);
-                setTimeout(() => {
-                    modificaFormLogin();
-                    setError(null);
-                }, 5000);
-            }
-        } catch (error) {
-            console.log('Deu erro no cadastro');
-            setError(false);
+        const { data } = await register.default(nome, tipo, email, telefone, senha);
+        
+        if(data){
+            setError(true);
             setTimeout(() => {
                 modificaFormLogin();
-                setError(null);
             }, 5000);
         }
     }
@@ -120,6 +115,7 @@ export const AuthProvider: React.FC = ({children}) => {
                 reset: reset,
                 deny: deny,
                 error: error,
+                modificaError,
                 modificaReset,
                 modificaFormLogin,
                 registerIn,

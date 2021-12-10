@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, Button, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native"; 
+import { ActivityIndicator, Button, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, TouchableHighlight, View } from "react-native"; 
 import ListaExperiencia from "../../components/ListaExperiencia";
 import { useAuth } from "../../contexts/auth";
 import FormContext from "../../contexts/form";
@@ -25,6 +25,13 @@ export default function Experiencias() {
 
     useEffect(() => {
         carregaExperiencias();
+        setEmpresa('');
+        setArea('');
+        setAtividades('');
+
+        return () => {
+            setDados([]);
+        }
     }, [formExp]);
 
     function limparForm() {
@@ -55,14 +62,18 @@ export default function Experiencias() {
                 {formExp?<KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
                             <View>
                                 <TextInput 
-                                    style={styles.campo} 
+                                    style={styles.campo}
+                                    maxLength={20}
+                                    placeholderTextColor="#808080"
                                     placeholder="Empresa" 
                                     onChangeText={(text) => setEmpresa(text)}
                                     value={empresa}
                                 >
                                 </TextInput>
                                 <TextInput 
-                                    style={styles.campo} 
+                                    style={styles.campo}
+                                    placeholderTextColor="#808080"
+                                    maxLength={30}
                                     placeholder="Area/Cargo" 
                                     onChangeText={(text) => setArea(text)}
                                     value={area}
@@ -71,20 +82,25 @@ export default function Experiencias() {
                                 <TextInput 
                                     style={styles.campo} 
                                     placeholder="Atividades"
+                                    placeholderTextColor="#808080"
                                     multiline={true}
                                     numberOfLines={4}
                                     onChangeText={(text) => setAtividades(text)}
                                     value={atividades}
                                 >
                                 </TextInput>
-                                <View style={styles.botao}>
-                                    <Button title="Adicionar experiencia" onPress={() => {
+                                <TouchableHighlight
+                                    disabled={empresa && area && atividades ? false : true}
+                                    underlayColor="#E9E3CE" 
+                                    style={empresa && area && atividades ? [styles.botao] : [styles.botaoDesabilitado]} 
+                                    onPress={() => {
                                         setLoading(true);
                                         inserirExperiencia();
                                         limparForm();
-                                    }} 
-                                    />
-                                </View>
+                                    }}
+                                >
+                                    <Text style={styles.textoAdicionar}>Adicionar experiência</Text>
+                                </TouchableHighlight>
                                 {loading && <ActivityIndicator size="large" color="#000"></ActivityIndicator>}
                             </View>
                         </KeyboardAvoidingView> : <FlatList renderItem={({item}) => <ListaExperiencia {...item}/>} data={dados} />}

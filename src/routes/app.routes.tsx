@@ -77,22 +77,29 @@ export default function AppRoutes() {
                 }} />
                 <Tab.Screen name="Habilidades" component={Habilidades} options={{
                     headerRight: () => (
-                        <View style={styles.botao}>
-                            {botaoVisualizarHabilidade ?<Button 
-                                                    title="Visualizar habilidades"
-                                                    color="#F27281" 
-                                                    onPress={() => {
-                                                        setBotaoVisualizarHabilidade(false);
-                                                        modificaEstadoHabilidade();
-                                                    }}
-                                                /> :<Button 
-                                                    title="Adicionar habilidades"
-                                                    color="#F27281" 
-                                                    onPress={() => {
-                                                        setBotaoVisualizarHabilidade(true);
-                                                        modificaEstadoHabilidade();
-                                                    }}
-                                                />}
+                        <View>
+                            {botaoVisualizarHabilidade ?
+                                <TouchableHighlight
+                                    underlayColor="#E9E3CE" 
+                                    style={styles.botao} 
+                                    onPress={() => {
+                                        setBotaoVisualizarHabilidade(false);
+                                        modificaEstadoHabilidade();
+                                    }}
+                                >
+                                    <Text style={styles.textoAdicionar}>Visualizar habilidades</Text>
+                                </TouchableHighlight>
+                                     :  <TouchableHighlight
+                                            underlayColor="#E9E3CE" 
+                                            style={styles.botao} 
+                                            onPress={() => {
+                                                setBotaoVisualizarHabilidade(true);
+                                                modificaEstadoHabilidade();
+                                            }}
+                                        >
+                                            <Text style={styles.textoAdicionar}>Adicionar habilidade</Text>
+                                        </TouchableHighlight>
+                            }
                         </View>
                     ),
                     headerStyle: {
@@ -110,22 +117,28 @@ export default function AppRoutes() {
                 }} />
                 <Tab.Screen name="Experiencias" component={Experiencias} options={{
                     headerRight: () => (
-                        <View style={styles.botao}>
-                            {botaoVisualizarExperiencia ?<Button 
-                                            title="Visualizar experiencias"
-                                            color="#F27281" 
-                                            onPress={() => {
-                                                setBotaoVisualizarExperiencia(false);
-                                                modificaEstadoExperiencia();
-                                            }}
-                                        /> :<Button 
-                                                title="Adicionar experiencias"
-                                                color="#F27281" 
-                                                onPress={() => {
-                                                    setBotaoVisualizarExperiencia(true);
-                                                    modificaEstadoExperiencia();
-                                                }}
-                                            />}
+                        <View>
+                            {botaoVisualizarExperiencia ?
+                                <TouchableHighlight
+                                    underlayColor="#E9E3CE" 
+                                    style={styles.botao} 
+                                    onPress={() => {
+                                        setBotaoVisualizarExperiencia(false);
+                                        modificaEstadoExperiencia();
+                                    }}
+                                >
+                                    <Text style={styles.textoAdicionar}>Visualizar experiências</Text>
+                                </TouchableHighlight>:    
+                                <TouchableHighlight
+                                    underlayColor="#E9E3CE" 
+                                    style={styles.botao} 
+                                    onPress={() => {
+                                        setBotaoVisualizarExperiencia(true);
+                                        modificaEstadoExperiencia();
+                                    }}
+                                >
+                                    <Text style={styles.textoAdicionar}>Adicionar experiência</Text>
+                                </TouchableHighlight>}
                         </View>
                     ),
                     headerStyle: {
@@ -200,22 +213,28 @@ export default function AppRoutes() {
             />
             <Tab.Screen name="Lista de candidatos" component={Lista} options={{
                 headerRight: () => (
-                    <View style={styles.botao}>
-                        {botaoLista ?<Button 
-                                                title="Perfil completo"
-                                                color="#F27281" 
-                                                onPress={() => {
-                                                    setBotaoLista(false);
-                                                    modificaListaGestor();
-                                                }}
-                                            /> :<Button 
-                                                title="Listar todos"
-                                                color="#F27281" 
-                                                onPress={() => {
-                                                    setBotaoLista(true);
-                                                    modificaListaGestor();
-                                                }}
-                                            />}
+                    <View>
+                        {botaoLista ?
+                            <TouchableHighlight
+                                underlayColor="#E9E3CE" 
+                                style={styles.botao} 
+                                onPress={() => {
+                                    setBotaoLista(false);
+                                    modificaListaGestor();
+                                }}
+                            >
+                                <Text style={styles.textoAdicionar}>Listar todos</Text>
+                            </TouchableHighlight>:
+                            <TouchableHighlight
+                                underlayColor="#E9E3CE" 
+                                style={styles.botao} 
+                                onPress={() => {
+                                    setBotaoLista(true);
+                                    modificaListaGestor();
+                                }}
+                            >
+                                <Text style={styles.textoAdicionar}>Perfil completo</Text>
+                            </TouchableHighlight>}
                     </View>
                 ),
                 headerStyle: {
